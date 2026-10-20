@@ -53,3 +53,16 @@ func TestGradientPreservesTextAndUsesSeveralColors(t *testing.T) {
 		t.Fatal("not a gradient", len(seen))
 	}
 }
+
+func TestCompactLogoGradientsVaryAcrossBothArms(t *testing.T) {
+	for _, id := range []string{"aurora", "afterglow"} {
+		rows := strings.Split(LogoView(FindTheme(id), false), "\n")
+		colors := regexp.MustCompile(`\x1b\[38;2;[0-9;]+m`).FindAllString(rows[0], -1)
+		if len(colors) < 2 || colors[0] == colors[len(colors)-1] {
+			t.Fatal("logo still uses horizontal color bands", id)
+		}
+		if ansi.Strip(strings.Join(rows, "\n")) != strings.Join(Logo, "\n") {
+			t.Fatal("gradient changed compact logo geometry", id)
+		}
+	}
+}

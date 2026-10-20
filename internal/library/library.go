@@ -28,11 +28,12 @@ type Track struct {
 }
 
 type Profile struct {
-	Language string          `json:"language,omitempty"`
-	Username string          `json:"username"`
-	Theme    string          `json:"theme"`
-	Sources  map[string]bool `json:"sources"`
-	Complete bool            `json:"complete"`
+	Language      string          `json:"language,omitempty"`
+	Username      string          `json:"username"`
+	Theme         string          `json:"theme"`
+	Sources       map[string]bool `json:"sources"`
+	Complete      bool            `json:"complete"`
+	HideButterfly bool            `json:"hide_butterfly,omitempty"`
 }
 
 type State struct {

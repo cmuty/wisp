@@ -34,6 +34,7 @@ type taskResult struct {
 type Model struct {
 	languageReturn               string
 	butterflyFrame               int
+	butterflyGeneration          uint64
 	lyricsClient                 *lyrics.Client
 	seekBusy                     bool
 	pendingSeek                  int
@@ -138,6 +139,9 @@ func (m *Model) task(kind string, fn func(context.Context) taskResult) tea.Cmd {
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch v := msg.(type) {
 	case butterflyPulse:
+		if v.Generation != m.butterflyGeneration {
+			return m, nil
+		}
 		if m.stage == "ready" {
 			m.butterflyFrame++
 		}
@@ -389,8 +393,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, m.languageKey(key)
 		}
 		if m.stage == "settings" {
-			m.settingsKey(key)
-			return m, nil
+			return m, m.settingsKey(key)
 		}
 		if m.stage == "welcome" {
 			if key == "enter" {

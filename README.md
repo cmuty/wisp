@@ -68,7 +68,7 @@ fonts and color support can change its appearance.
 - **Your listening space.** Library, Playlists, Likes, and Recent share one interface. Start a track and the following results become its queue.
 - **Keyboard and mouse.** Browse with the wheel, pause with Enter, seek with the arrows, and adjust volume with `+` and `-`.
 - **Lyrics that keep time.** Follow the current line, seek without losing your place, and load a local `.lrc` when a service has no match.
-- **Made for dark terminals.** Five themes, a gradient W, restrained accents, and an animated butterfly. ASCII and reduced-motion modes are available.
+- **Made for dark terminals.** Five themes, a gradient W, restrained accents, and an animated butterfly you can disable in `/settings`. ASCII and reduced-motion modes are available.
 - **English and Russian.** Choose a language during setup or change it later with `/language`.
 
 ## How it works

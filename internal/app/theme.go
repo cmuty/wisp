@@ -42,6 +42,20 @@ func LogoView(t Theme, plain bool) string {
 	rows := make([]string, len(Logo))
 	for i, row := range Logo {
 		f := float64(i) / float64(len(Logo)-1)
+		if t.ID == "aurora" || t.ID == "afterglow" {
+			var pixels strings.Builder
+			glyphs := []rune(row)
+			for x, glyph := range glyphs {
+				if glyph == ' ' {
+					pixels.WriteRune(glyph)
+					continue
+				}
+				u := .65*float64(x)/float64(len(glyphs)-1) + .35*f
+				pixels.WriteString(style(logoColor(themeStops(t), u, 1)).Render(string(glyph)))
+			}
+			rows[i] = pixels.String()
+			continue
+		}
 		c := logoColor(themeStops(t), f, 1)
 		rows[i] = style(c).Render(row)
 	}

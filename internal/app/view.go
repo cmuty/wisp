@@ -72,7 +72,7 @@ func (m *Model) View() tea.View {
 		body = m.languageBody(t)
 	}
 	if m.stage == "settings" {
-		body = m.settingsBody(t)
+		body = m.settingsBody(t, contentHeight)
 	}
 	if m.stage == "theme" {
 		body = []string{style(t.Text).Bold(true).Render(m.tr("Choose the color of your quiet.")), ""}
@@ -99,7 +99,7 @@ func (m *Model) View() tea.View {
 				prefix = "› "
 				color = t.Accent
 			}
-			body = append(body, style(color).Render(prefix+check+" "+source.Labels[i]+"   "+m.tr(m.Sources.Status(n))))
+			body = append(body, style(color).Render(prefix+check+" "+source.Labels[i]))
 		}
 		body = append(body, "")
 		color := t.Muted
@@ -254,13 +254,13 @@ func (m *Model) wizard(t Theme, width int) []string {
 			if m.choice == i {
 				color = t.Accent
 			}
-			lines = append(lines, style(color).Render(prefix+check+" "+source.Labels[i]), style(t.Muted).Render("      "+m.tr(m.Sources.Status(n))), "")
+			lines = append(lines, style(color).Render(prefix+check+" "+source.Labels[i]), "")
 		}
 		color := t.Muted
 		if m.choice == len(source.Names) {
 			color = t.Accent
 		}
-		lines = append(lines, style(color).Render(m.tr("› Continue")), "", style(t.Muted).Render(m.tr("Local files are always available. Selection does not sign you in.")))
+		lines = append(lines, style(color).Render(m.tr("› Continue")), "", style(t.Muted).Render(m.tr("Local music is always enabled.")))
 	case "syncing":
 		phase := "preparing your library…"
 		if m.frame > 4 {

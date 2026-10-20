@@ -17,17 +17,18 @@ const (
 	butterflyFrameInterval = time.Second / 30
 )
 
-type butterflyPulse time.Time
+type butterflyPulse struct{ Generation uint64 }
 
 func (m *Model) butterflyTick() tea.Cmd {
-	if m.ReducedMotion {
+	if m.ReducedMotion || m.State.Profile.HideButterfly {
 		return nil
 	}
 	delay := butterflyFrameInterval
 	if m.stage != "ready" {
 		delay = 250 * time.Millisecond
 	}
-	return tea.Tick(delay, func(t time.Time) tea.Msg { return butterflyPulse(t) })
+	generation := m.butterflyGeneration
+	return tea.Tick(delay, func(time.Time) tea.Msg { return butterflyPulse{Generation: generation} })
 }
 
 type butterflyPose struct {
@@ -123,7 +124,7 @@ func butterflyFreeArea(lines []string, width, border int) (butterflyArea, bool) 
 	return best, bestScore > 0
 }
 func (m *Model) drawButterfly(lines []string, t Theme, width, border int) {
-	if m.stage != "ready" || border >= len(lines) || border < butterflyHeight+2 {
+	if m.State.Profile.HideButterfly || m.stage != "ready" || border >= len(lines) || border < butterflyHeight+2 {
 		return
 	}
 	area, ok := butterflyFreeArea(lines, width, border)

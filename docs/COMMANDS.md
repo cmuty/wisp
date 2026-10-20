@@ -73,7 +73,7 @@ open its tracks, then choose a track to play.
 | `/playlists delete "name"` | Delete a local playlist |
 | `/lyrics` | Toggle lyrics |
 | `/lyrics offset 0.5` | Adjust lyric timing for the current recording |
-| `/settings` | Theme and search-source settings |
+| `/settings` | Theme, search sources, language, and butterfly visibility |
 | `/themes` | Theme picker |
 | `/profile` | Profile, sources, and connection status |
 | `/profile name "name"` | Rename your local profile |

@@ -19,6 +19,8 @@ type browserState struct {
 
 var tabs = []string{"Library", "Playlists", "Likes", "Recent"}
 
+const settingsCount = 7
+
 func (m *Model) switchTab(n int) {
 	if m.tab == 0 {
 		m.libraryView = browserState{append([]string(nil), m.results...), m.title, m.message, m.warnings, m.index, m.offset, m.pageOffset}
@@ -69,7 +71,7 @@ func (m *Model) move(delta int) {
 		return
 	}
 	if m.stage == "settings" {
-		m.choice = (m.choice + delta%6 + 6) % 6
+		m.choice = (m.choice + delta%settingsCount + settingsCount) % settingsCount
 		return
 	}
 	if m.stage == "theme" || m.stage == "sources" {
@@ -202,7 +204,7 @@ func (m *Model) playlistBody(t Theme, height int) []string {
 	}
 	return rows
 }
-func (m *Model) settingsBody(t Theme) []string {
+func (m *Model) settingsBody(t Theme, height int) []string {
 	rows := []string{style(t.Text).Bold(true).Render(m.tr("Make room for your sound.")), ""}
 	entries := []string{m.tr("Theme") + "   " + m.tr(FindTheme(m.State.Profile.Theme).Name)}
 	for i, n := range source.Names {
@@ -216,8 +218,15 @@ func (m *Model) settingsBody(t Theme) []string {
 	if m.State.Profile.Language == "ru" {
 		languageName = "Русский"
 	}
-	entries = append(entries, m.tr("Language")+"   "+languageName, m.tr("Done"))
-	for i, s := range entries {
+	butterflyMark := "[x]"
+	if m.State.Profile.HideButterfly {
+		butterflyMark = "[ ]"
+	}
+	entries = append(entries, m.tr("Language")+"   "+languageName, butterflyMark+" "+m.tr("Butterfly"), m.tr("Done"))
+	capacity := max(1, height-2)
+	start := max(0, m.choice-capacity+1)
+	for i := start; i < min(len(entries), start+capacity); i++ {
+		s := entries[i]
 		p := "  "
 		c := t.Muted
 		if i == m.choice {
@@ -226,9 +235,12 @@ func (m *Model) settingsBody(t Theme) []string {
 		}
 		rows = append(rows, style(c).Render(p+s))
 	}
-	return append(rows, "", style(t.Muted).Render(m.tr("Spotify: playlist metadata; audio matched on YouTube.")), style(t.Muted).Render(m.tr("Local music is always enabled.")))
+	if len(rows)+2 <= height {
+		rows = append(rows, "", style(t.Muted).Render(m.tr("Local music is always enabled.")))
+	}
+	return rows
 }
-func (m *Model) settingsKey(key string) {
+func (m *Model) settingsKey(key string) tea.Cmd {
 	switch key {
 	case "up":
 		m.move(-1)
@@ -242,6 +254,11 @@ func (m *Model) settingsKey(key string) {
 		case 4:
 			m.beginLanguage()
 		case 5:
+			m.State.Profile.HideButterfly = !m.State.Profile.HideButterfly
+			m.butterflyGeneration++
+			m.persist()
+			return m.butterflyTick()
+		case 6:
 			m.stage = "ready"
 		default:
 			n := source.Names[m.choice-1]
@@ -249,6 +266,7 @@ func (m *Model) settingsKey(key string) {
 			m.persist()
 		}
 	}
+	return nil
 }
 
 func (m *Model) header(t Theme, width int) string { return m.headerLine(t, width, true) }
