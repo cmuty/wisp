@@ -1,0 +1,13 @@
+/dist/
+*.log
+*.tmp
+/.preview-cache/
+/research/
+/docs/previews/
+/docs/CUE_RESEARCH.md
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+coverage.out
