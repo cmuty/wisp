@@ -29,7 +29,9 @@ Spotify search or streaming. Do not share tokens when filing a report.
 A 503 means the remote lyrics service is unavailable. wisp retries transient
 failures with backoff and uses a local/cache result when available, but cannot
 repair the remote service. Press F5 to retry later. Not every recording has
-lyrics or timestamps. Remixes and edits can match the wrong timing; use
+lyrics or timestamps. Collaboration credits can differ between sources; wisp
+accepts missing co-credits while checking the title and duration. Remixes and
+edits can match the wrong timing; use
 `/lyrics offset 0.5`, or a same-name local `.lrc` next to a local audio file.
 Home restores auto-follow after manual scrolling.
 

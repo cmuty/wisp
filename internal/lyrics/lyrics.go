@@ -127,7 +127,7 @@ func (c *Client) Find(ctx context.Context, t library.Track) (Song, error) {
 		best := math.Inf(1)
 		found := false
 		for _, v := range candidates {
-			if !strings.EqualFold(strings.TrimSpace(v.TrackName), title) || !strings.EqualFold(strings.TrimSpace(v.ArtistName), artist) {
+			if !strings.EqualFold(strings.TrimSpace(v.TrackName), title) || !artistCreditMatches(v.ArtistName, artist) {
 				continue
 			}
 			diff := math.Abs(v.Duration - t.Duration)
@@ -149,7 +149,7 @@ func (c *Client) Find(ctx context.Context, t library.Track) (Song, error) {
 					return Song{}, e
 				}
 				for _, v := range more {
-					if strings.EqualFold(strings.TrimSpace(v.TrackName), cleaned) && strings.EqualFold(strings.TrimSpace(v.ArtistName), artist) && (t.Duration <= 0 || math.Abs(v.Duration-t.Duration) <= 3) {
+					if strings.EqualFold(strings.TrimSpace(v.TrackName), cleaned) && artistCreditMatches(v.ArtistName, artist) && (t.Duration <= 0 || math.Abs(v.Duration-t.Duration) <= 3) {
 						r = v
 						found = true
 						break
