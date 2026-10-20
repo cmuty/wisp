@@ -40,6 +40,22 @@ CMD может потребовать перезапуска, чтобы уви�
 и источники поиска. Профиль wisp хранится локально, отдельная регистрация не нужна.
 Ручная установка и просмотр скрипта перед запуском — в [инструкции](docs/INSTALLATION.md).
 
+**EXE:** скачай [установщик Windows](https://github.com/cmuty/wisp/releases/latest/download/wisp-setup-x64.exe)
+и открой его. Есть мастер установки, пункт в меню «Пуск» и удаление через
+«Установленные приложения». Для настройки аудиокомпонентов нужен интернет.
+
+**Scoop:** подключи bucket из нашего репозитория:
+
+```powershell
+scoop bucket add extras
+scoop bucket add wisp https://github.com/cmuty/wisp
+scoop install wisp/wisp
+```
+
+**WinGet:** манифесты `cmuty.wisp` приложены к релизу. Установка по имени из
+общего каталога станет доступна после отправки и одобрения пакета.
+Статус и подробности — в [руководстве](docs/PACKAGING.md).
+
 ## Showcase
 
 <img src="docs/assets/player.png" alt="Медиатека wisp в теме Aurora" width="100%">

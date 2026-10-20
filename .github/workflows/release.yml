@@ -2,8 +2,20 @@ name: Release wisp
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to build and test without publishing
+        required: true
+        default: '0.4.12'
+env:
+  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref_name }}
+  RELEASE_REPOSITORY: ${{ github.repository }}
 permissions:
   contents: write
+concurrency:
+  group: release-wisp
+  cancel-in-progress: false
 jobs:
   windows:
     runs-on: windows-latest
@@ -15,20 +27,61 @@ jobs:
           cache: true
       - name: Test, build and package
         shell: pwsh
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
-          RELEASE_REPOSITORY: ${{ github.repository }}
         run: |
           ./scripts/build.ps1 -Version $env:RELEASE_TAG.TrimStart('v') -ReleaseBaseUrl "https://github.com/$env:RELEASE_REPOSITORY/releases/download/$env:RELEASE_TAG"
+      - name: Provision verified installer compiler in CI
+        shell: pwsh
+        run: ./scripts/setup-inno-ci.ps1
+      - name: Build EXE and package manifests
+        shell: pwsh
+        run: |
+          $version = $env:RELEASE_TAG.TrimStart('v')
+          ./scripts/build-installer.ps1 -Version $version -Compiler $env:INNO_COMPILER
+          ./scripts/build-manifests.ps1 -Version $version -Repository $env:RELEASE_REPOSITORY
+      - name: Test EXE installation and removal
+        shell: pwsh
+        run: ./scripts/test-installer.ps1 -Version $env:RELEASE_TAG.TrimStart('v')
+      - name: Test Scoop installation and removal
+        shell: pwsh
+        run: ./scripts/test-scoop.ps1 -Version $env:RELEASE_TAG.TrimStart('v')
       - name: Publish tagged release
+        if: github.event_name == 'push'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ github.ref_name }}
         run: |
           $notes = "docs/releases/$env:RELEASE_TAG.md"
+          $installer = "dist/wisp-$($env:RELEASE_TAG.TrimStart('v'))-setup-x64.exe"
           if (Test-Path -LiteralPath $notes) {
-            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --notes-file $notes
+            gh release create $env:RELEASE_TAG dist/*.zip $installer dist/wisp-setup-x64.exe dist/wisp.json dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --notes-file $notes
           } else {
-            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --generate-notes
+            gh release create $env:RELEASE_TAG dist/*.zip $installer dist/wisp-setup-x64.exe dist/wisp.json dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --generate-notes
           }
+      - name: Update the Scoop bucket
+        if: github.event_name == 'push'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $endpoint = "repos/$env:RELEASE_REPOSITORY/contents/bucket/wisp.json"
+          $existing = & gh api $endpoint 2>$null
+          $exists = $LASTEXITCODE -eq 0
+          $payload = @{
+            message = "chore(scoop): update wisp to $env:RELEASE_TAG"
+            content = [Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $PWD 'dist/wisp.json')))
+            branch = 'main'
+            author = @{ name = (git log -1 --format='%an'); email = (git log -1 --format='%ae') }
+          }
+          if ($exists -and $existing) { $payload.sha = ($existing | ConvertFrom-Json).sha }
+          $payload | ConvertTo-Json -Depth 4 | gh api --method PUT $endpoint --input - --silent
+      - name: Save packaging test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wisp-package-test-${{ github.run_number }}
+          path: |
+            dist/*.exe
+            dist/*.zip
+            dist/*.json
+            dist/SHA256SUMS
+          if-no-files-found: ignore

@@ -43,6 +43,22 @@ enable your search sources. Your wisp profile stays on your computer.
 Prefer a manual install? See [installation and updates](docs/INSTALLATION.md),
 including how to inspect the script before running it.
 
+**EXE setup:** download [the latest Windows installer](https://github.com/cmuty/wisp/releases/latest/download/wisp-setup-x64.exe)
+and open it. The wizard installs for your user account and includes an uninstaller.
+Internet access is required for audio-helper setup.
+
+**Scoop:** use this repository's bucket:
+
+```powershell
+scoop bucket add extras
+scoop bucket add wisp https://github.com/cmuty/wisp
+scoop install wisp/wisp
+```
+
+**WinGet:** manifests for `cmuty.wisp` are included in each release. Availability
+in the community catalog depends on submission and approval; see the
+[package-manager guide](docs/PACKAGING.md) for current status.
+
 ## Showcase
 
 <img src="docs/assets/player.png" alt="wisp library in the Aurora theme, with search results, navigation, and a gradient playback bar" width="100%">

@@ -9,6 +9,9 @@
 
 ## Install
 
+You can also use the [EXE wizard or Scoop](PACKAGING.md). That guide also explains
+the WinGet manifests and catalog approval status.
+
 ```powershell
 irm https://github.com/cmuty/wisp/releases/latest/download/install.ps1 | iex
 ```

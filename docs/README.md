@@ -8,6 +8,7 @@ The first-run wizard walks through language, name, theme, and enabled sources.
 | Guide | Scope |
 | --- | --- |
 | [Installation](INSTALLATION.md) | Requirements, setup, updates, uninstall |
+| [Windows packages](PACKAGING.md) | EXE setup, Scoop bucket, WinGet status, release maintenance |
 | [Commands](COMMANDS.md) | Input, shortcuts, playlists, queue, lyrics |
 | [Sources](SOURCES.md) | Public adapters, imports, Spotify matching, limits |
 | [Connections](CONNECTIONS.md) | Optional credentials and stored data |
