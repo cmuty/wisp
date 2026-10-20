@@ -1,12 +1,16 @@
 [CmdletBinding()]
 param(
-    [string]$ToolsDir = (Join-Path (Split-Path -Parent $PSScriptRoot) 'dist\tools'),
-    [string]$MpvDirectory = (Join-Path (Split-Path -Parent $PSScriptRoot) 'dist\mpv'),
+    [string]$ToolsDir = '',
+    [string]$MpvDirectory = '',
     [string]$YtdlpPath = '',
     [switch]$WithoutMpv
 )
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
+# Packaged scripts sit beside wisp.exe; source scripts sit under scripts/.
+$audioRoot = if (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'wisp.exe')) { $PSScriptRoot } else { Join-Path (Split-Path -Parent $PSScriptRoot) 'dist' }
+if (!$ToolsDir) { $ToolsDir = Join-Path $audioRoot 'tools' }
+if (!$MpvDirectory) { $MpvDirectory = Join-Path $audioRoot 'mpv' }
 $scratch = Join-Path ([IO.Path]::GetTempPath()) ('wisp-audio-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $scratch,$ToolsDir -Force | Out-Null
 function Get-CheckedFile([string]$Url,[string]$Hash,[string]$Path) {
