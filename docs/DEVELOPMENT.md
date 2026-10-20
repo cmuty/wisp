@@ -62,7 +62,7 @@ package's directory, then run `node scripts/showcase.mjs dist/wisp.exe`.
 ## Release
 
 ```powershell
-.\scripts\build.ps1 -Version 0.4.7 -ReleaseBaseUrl https://github.com/cmuty/wisp/releases/download/v0.4.7
+.\scripts\build.ps1 -Version 0.4.8 -ReleaseBaseUrl https://github.com/cmuty/wisp/releases/download/v0.4.8
 ```
 
 The script tests, vets, builds, gathers dependency license notices, and creates

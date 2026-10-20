@@ -28,7 +28,7 @@ jobs:
         run: |
           $notes = "docs/releases/$env:RELEASE_TAG.md"
           if (Test-Path -LiteralPath $notes) {
-            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --title "wisp $env:RELEASE_TAG" --notes-file $notes
+            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --notes-file $notes
           } else {
-            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --title "wisp $env:RELEASE_TAG" --generate-notes
+            gh release create $env:RELEASE_TAG dist/*.zip dist/install.ps1 dist/SHA256SUMS dist/release.json --latest --title "wisp $env:RELEASE_TAG" --generate-notes
           }

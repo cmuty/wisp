@@ -58,7 +58,12 @@ try {
     $releaseDir = Join-Path $InstallDir ('releases\' + $actual.Substring(0,16))
 	if (!$WithoutExtractor) {
 		$audioSetup = Join-Path $unpacked 'setup-audio.ps1'
-		if (Test-Path -LiteralPath $audioSetup) { & $audioSetup -ToolsDir (Join-Path $unpacked 'tools') -WithoutMpv }
+		if (Test-Path -LiteralPath $audioSetup) {
+            # The helper is inside the verified archive. Evaluate it like this
+            # bootstrap so default PowerShell file execution policy is unchanged.
+            $setupBlock = [scriptblock]::Create([IO.File]::ReadAllText($audioSetup))
+            & $setupBlock -ToolsDir (Join-Path $unpacked 'tools') -MpvDirectory (Join-Path $unpacked 'mpv') -WithoutMpv
+        }
 	}
     $bin = Join-Path $InstallDir 'bin'
     New-Item -ItemType Directory -Path $releaseDir,$bin -Force | Out-Null
