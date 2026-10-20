@@ -34,24 +34,15 @@ func FindTheme(id string) Theme {
 	}
 	return Themes[0]
 }
-func style(color string) lipgloss.Style   { return lipgloss.NewStyle().Foreground(lipgloss.Color(color)) }
-func LogoView(t Theme, plain bool) string { return LogoViewSize(t, plain, 43, 15) }
-func LogoViewSize(t Theme, plain bool, width, height int) string {
-	if !plain && (t.ID == "aurora" || t.ID == "afterglow") {
-		index := 0
-		if t.ID == "afterglow" {
-			index = 2
-		}
-		return strings.Join(refinedLogoRowsSized(refinedLogos[index], min(43, width), min(15, height)), "\n")
-	}
+func style(color string) lipgloss.Style { return lipgloss.NewStyle().Foreground(lipgloss.Color(color)) }
+func LogoView(t Theme, plain bool) string {
 	if plain {
 		return "  \\    /\\    /\n   \\  /  \\  /\n    \\/    \\/\n"
 	}
-	a, b := rgb(t.Accent), rgb(t.Second)
 	rows := make([]string, len(Logo))
 	for i, row := range Logo {
 		f := float64(i) / float64(len(Logo)-1)
-		c := fmt.Sprintf("#%02x%02x%02x", int(float64(a[0])*(1-f)+float64(b[0])*f), int(float64(a[1])*(1-f)+float64(b[1])*f), int(float64(a[2])*(1-f)+float64(b[2])*f))
+		c := logoColor(themeStops(t), f, 1)
 		rows[i] = style(c).Render(row)
 	}
 	return strings.Join(rows, "\n")

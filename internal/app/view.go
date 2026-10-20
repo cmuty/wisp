@@ -215,7 +215,7 @@ func (m *Model) View() tea.View {
 	return v
 }
 func (m *Model) wizard(t Theme, width int) []string {
-	lines := []string{"", LogoViewSize(t, m.Plain, width, max(5, m.height-14)), ""} // Split the logo before calculating cursor rows.
+	lines := []string{"", LogoView(t, m.Plain), ""} // Split the logo before calculating cursor rows.
 	lines = strings.Split(strings.Join(lines, "\n"), "\n")
 	switch m.stage {
 	case "language":

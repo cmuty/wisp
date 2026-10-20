@@ -8,8 +8,9 @@ import (
 	"wisp/internal/library"
 )
 
-func TestNewThemesPersistAndFitOnboarding(t *testing.T) {
-	for _, id := range []string{"aurora", "afterglow"} {
+func TestThemesPersistAndFitOnboarding(t *testing.T) {
+	for _, theme := range Themes {
+		id := theme.ID
 		m := completionFixture(t)
 		m.State.Profile.Theme = id
 		m.beginTheme()
@@ -22,9 +23,22 @@ func TestNewThemesPersistAndFitOnboarding(t *testing.T) {
 			t.Fatal("theme not saved", id, err)
 		}
 		logo := LogoView(FindTheme(id), false)
-		if len(strings.Split(logo, "\n")) != 15 {
+		if ansi.Strip(logo) != strings.Join(Logo, "\n") {
+			t.Fatal("theme changed the compact logo shape", id)
+		}
+		if len(strings.Split(logo, "\n")) != 7 {
 			t.Fatal("wrong logo")
 		}
+		for _, row := range strings.Split(logo, "\n") {
+			if ansi.StringWidth(row) > 22 {
+				t.Fatal("logo exceeds compact width", id)
+			}
+		}
+		m.State.Profile.Language = "ru"
+		if m.tr(theme.Name) == theme.Name {
+			t.Fatal("untranslated theme name", id)
+		}
+		m.State.Profile.Language = "en"
 		for _, size := range [][2]int{{44, 20}, {86, 30}, {120, 40}} {
 			for _, stage := range []string{"language", "welcome", "username", "theme", "sources"} {
 				m.stage = stage
