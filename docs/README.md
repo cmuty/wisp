@@ -14,5 +14,6 @@ The first-run wizard walks through language, name, theme, and enabled sources.
 | [Troubleshooting](TROUBLESHOOTING.md) | PATH, audio, lyrics, input, provider failures |
 | [Development](DEVELOPMENT.md) | Source layout, tests, builds, release process |
 | [Design](DESIGN.md) | Themes, gradients, motion, localization |
+| [Memory footprint](MEMORY.md) | Recorded process counters, scope, and reproduction |
 
 Detailed guides are currently in English. The app and root READMEs support both English and Russian.

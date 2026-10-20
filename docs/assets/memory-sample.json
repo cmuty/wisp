@@ -1,0 +1,390 @@
+{
+  "version": "wisp 0.4.10",
+  "measuredAtUtc": "2026-10-20T23:28:28.8134675Z",
+  "windowsVersion": "10.0.26200.0",
+  "architecture": "x64",
+  "context": "Existing user playback session; mpv was unpaused and non-idle at the start",
+  "durationSeconds": 31.0,
+  "sampleCount": 25,
+  "metric": "Process working set in bytes; combined values sum process working sets, including shared pages.",
+  "exclusions": "Terminal host and measurement tool; helpers absent between samples may be missed.",
+  "summary": {
+    "wispWorkingSetBytes": {
+      "mean": 33422377,
+      "min": 32677888,
+      "max": 34037760
+    },
+    "helperWorkingSetBytes": {
+      "mean": 51544719,
+      "min": 51417088,
+      "max": 51609600
+    },
+    "combinedWorkingSetBytes": {
+      "mean": 84967096,
+      "min": 84283392,
+      "max": 85585920
+    },
+    "wispPrivateBytes": {
+      "mean": 64804454,
+      "min": 64049152,
+      "max": 65417216
+    }
+  },
+  "samples": [
+    {
+      "seconds": 0.28,
+      "wispWorkingSetBytes": 33476608,
+      "wispPrivateBytes": 64851968,
+      "helperWorkingSetBytes": 51564544,
+      "combinedWorkingSetBytes": 85041152,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51564544,
+          "privateBytes": 38088704
+        }
+      ]
+    },
+    {
+      "seconds": 1.54,
+      "wispWorkingSetBytes": 32727040,
+      "wispPrivateBytes": 64098304,
+      "helperWorkingSetBytes": 51589120,
+      "combinedWorkingSetBytes": 84316160,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51589120,
+          "privateBytes": 38113280
+        }
+      ]
+    },
+    {
+      "seconds": 2.793,
+      "wispWorkingSetBytes": 32677888,
+      "wispPrivateBytes": 64049152,
+      "helperWorkingSetBytes": 51605504,
+      "combinedWorkingSetBytes": 84283392,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51605504,
+          "privateBytes": 38129664
+        }
+      ]
+    },
+    {
+      "seconds": 4.032,
+      "wispWorkingSetBytes": 33005568,
+      "wispPrivateBytes": 64376832,
+      "helperWorkingSetBytes": 51605504,
+      "combinedWorkingSetBytes": 84611072,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51605504,
+          "privateBytes": 38129664
+        }
+      ]
+    },
+    {
+      "seconds": 5.253,
+      "wispWorkingSetBytes": 33349632,
+      "wispPrivateBytes": 64720896,
+      "helperWorkingSetBytes": 51609600,
+      "combinedWorkingSetBytes": 84959232,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51609600,
+          "privateBytes": 38133760
+        }
+      ]
+    },
+    {
+      "seconds": 6.471,
+      "wispWorkingSetBytes": 33472512,
+      "wispPrivateBytes": 64860160,
+      "helperWorkingSetBytes": 51560448,
+      "combinedWorkingSetBytes": 85032960,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51560448,
+          "privateBytes": 38084608
+        }
+      ]
+    },
+    {
+      "seconds": 7.705,
+      "wispWorkingSetBytes": 33505280,
+      "wispPrivateBytes": 64892928,
+      "helperWorkingSetBytes": 51568640,
+      "combinedWorkingSetBytes": 85073920,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51568640,
+          "privateBytes": 38092800
+        }
+      ]
+    },
+    {
+      "seconds": 8.937,
+      "wispWorkingSetBytes": 33517568,
+      "wispPrivateBytes": 64892928,
+      "helperWorkingSetBytes": 51576832,
+      "combinedWorkingSetBytes": 85094400,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51576832,
+          "privateBytes": 38100992
+        }
+      ]
+    },
+    {
+      "seconds": 10.17,
+      "wispWorkingSetBytes": 33271808,
+      "wispPrivateBytes": 64647168,
+      "helperWorkingSetBytes": 51445760,
+      "combinedWorkingSetBytes": 84717568,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51445760,
+          "privateBytes": 37978112
+        }
+      ]
+    },
+    {
+      "seconds": 11.44,
+      "wispWorkingSetBytes": 33255424,
+      "wispPrivateBytes": 64647168,
+      "helperWorkingSetBytes": 51433472,
+      "combinedWorkingSetBytes": 84688896,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51433472,
+          "privateBytes": 37941248
+        }
+      ]
+    },
+    {
+      "seconds": 12.675,
+      "wispWorkingSetBytes": 33435648,
+      "wispPrivateBytes": 64827392,
+      "helperWorkingSetBytes": 51417088,
+      "combinedWorkingSetBytes": 84852736,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51417088,
+          "privateBytes": 37924864
+        }
+      ]
+    },
+    {
+      "seconds": 13.897,
+      "wispWorkingSetBytes": 33435648,
+      "wispPrivateBytes": 64827392,
+      "helperWorkingSetBytes": 51429376,
+      "combinedWorkingSetBytes": 84865024,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51429376,
+          "privateBytes": 37928960
+        }
+      ]
+    },
+    {
+      "seconds": 15.124,
+      "wispWorkingSetBytes": 33259520,
+      "wispPrivateBytes": 64647168,
+      "helperWorkingSetBytes": 51433472,
+      "combinedWorkingSetBytes": 84692992,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51433472,
+          "privateBytes": 37933056
+        }
+      ]
+    },
+    {
+      "seconds": 16.372,
+      "wispWorkingSetBytes": 33226752,
+      "wispPrivateBytes": 64614400,
+      "helperWorkingSetBytes": 51572736,
+      "combinedWorkingSetBytes": 84799488,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51572736,
+          "privateBytes": 38072320
+        }
+      ]
+    },
+    {
+      "seconds": 17.63,
+      "wispWorkingSetBytes": 33038336,
+      "wispPrivateBytes": 64417792,
+      "helperWorkingSetBytes": 51572736,
+      "combinedWorkingSetBytes": 84611072,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51572736,
+          "privateBytes": 38072320
+        }
+      ]
+    },
+    {
+      "seconds": 18.872,
+      "wispWorkingSetBytes": 33251328,
+      "wispPrivateBytes": 64630784,
+      "helperWorkingSetBytes": 51556352,
+      "combinedWorkingSetBytes": 84807680,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51556352,
+          "privateBytes": 38055936
+        }
+      ]
+    },
+    {
+      "seconds": 20.118,
+      "wispWorkingSetBytes": 33447936,
+      "wispPrivateBytes": 64827392,
+      "helperWorkingSetBytes": 51564544,
+      "combinedWorkingSetBytes": 85012480,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51564544,
+          "privateBytes": 38064128
+        }
+      ]
+    },
+    {
+      "seconds": 21.339,
+      "wispWorkingSetBytes": 33624064,
+      "wispPrivateBytes": 65007616,
+      "helperWorkingSetBytes": 51572736,
+      "combinedWorkingSetBytes": 85196800,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51572736,
+          "privateBytes": 38072320
+        }
+      ]
+    },
+    {
+      "seconds": 22.587,
+      "wispWorkingSetBytes": 33628160,
+      "wispPrivateBytes": 65015808,
+      "helperWorkingSetBytes": 51572736,
+      "combinedWorkingSetBytes": 85200896,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51572736,
+          "privateBytes": 38072320
+        }
+      ]
+    },
+    {
+      "seconds": 23.821,
+      "wispWorkingSetBytes": 33652736,
+      "wispPrivateBytes": 65040384,
+      "helperWorkingSetBytes": 51548160,
+      "combinedWorkingSetBytes": 85200896,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51548160,
+          "privateBytes": 38047744
+        }
+      ]
+    },
+    {
+      "seconds": 25.046,
+      "wispWorkingSetBytes": 33820672,
+      "wispPrivateBytes": 65204224,
+      "helperWorkingSetBytes": 51564544,
+      "combinedWorkingSetBytes": 85385216,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51564544,
+          "privateBytes": 38064128
+        }
+      ]
+    },
+    {
+      "seconds": 26.286,
+      "wispWorkingSetBytes": 33820672,
+      "wispPrivateBytes": 65204224,
+      "helperWorkingSetBytes": 51564544,
+      "combinedWorkingSetBytes": 85385216,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51564544,
+          "privateBytes": 38064128
+        }
+      ]
+    },
+    {
+      "seconds": 27.52,
+      "wispWorkingSetBytes": 33812480,
+      "wispPrivateBytes": 65204224,
+      "helperWorkingSetBytes": 51568640,
+      "combinedWorkingSetBytes": 85381120,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51568640,
+          "privateBytes": 38068224
+        }
+      ]
+    },
+    {
+      "seconds": 28.76,
+      "wispWorkingSetBytes": 33808384,
+      "wispPrivateBytes": 65187840,
+      "helperWorkingSetBytes": 51572736,
+      "combinedWorkingSetBytes": 85381120,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51572736,
+          "privateBytes": 38072320
+        }
+      ]
+    },
+    {
+      "seconds": 29.99,
+      "wispWorkingSetBytes": 34037760,
+      "wispPrivateBytes": 65417216,
+      "helperWorkingSetBytes": 51548160,
+      "combinedWorkingSetBytes": 85585920,
+      "helpers": [
+        {
+          "name": "mpv.exe",
+          "workingSetBytes": 51548160,
+          "privateBytes": 38047744
+        }
+      ]
+    }
+  ],
+  "playbackAtStart": {
+    "paused": false,
+    "idleActive": false,
+    "method": "Read-only mpv JSON IPC get_property queries before sampling"
+  }
+}

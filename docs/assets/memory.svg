@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="425" viewBox="0 0 1100 425" role="img" aria-label="Observed memory: wisp 31.9 MiB, audio helpers 49.2 MiB; combined peak 81.6 MiB">
+<defs><linearGradient id="aurora"><stop stop-color="#63F6DF"/><stop offset=".5" stop-color="#78DEFF"/><stop offset="1" stop-color="#CA9BFA"/></linearGradient></defs>
+<rect width="1100" height="425" rx="12" fill="#0C0F16"/>
+<rect x=".5" y=".5" width="1099" height="424" rx="12" stroke="#293246" fill="none"/>
+<path d="M43 47L52 72L61 57L70 72L79 47" stroke="url(#aurora)" stroke-width="4" fill="none"/>
+<g font-family="Consolas,DejaVu Sans Mono,monospace">
+<text x="99" y="66" font-size="24" fill="#E4EAF1">Small footprint.</text>
+<text x="1056" y="65" text-anchor="end" font-size="14" fill="#929CAF">31s observation / Windows x64</text>
+<text x="44" y="110" font-size="15" fill="#929CAF">wisp 0.4.10 / observed resident memory</text>
+<text x="44" y="172" font-size="16" fill="#87DCEF">wisp.exe</text>
+<text x="44" y="227" font-size="48" fill="#E4EAF1">31.9<tspan dx="12" font-size="23" fill="#929CAF">MiB</tspan></text>
+<text x="568" y="172" font-size="16" fill="#B5A3E8">Audio helpers / mpv</text>
+<text x="568" y="227" font-size="48" fill="#E4EAF1">49.2<tspan dx="12" font-size="23" fill="#929CAF">MiB</tspan></text>
+<text x="44" y="256" font-size="13" fill="#929CAF">Mean process working set</text>
+<text x="568" y="256" font-size="13" fill="#929CAF">Mean process working set</text>
+<rect x="44" y="285" width="398.08" height="5" fill="#87DCEF"/>
+<rect x="442.08" y="285" width="613.92" height="5" fill="#B5A3E8"/>
+<text x="44" y="331" font-size="18" fill="#E4EAF1">81.6 MiB <tspan font-size="15" fill="#929CAF">combined peak in this sample</tspan></text>
+<text x="44" y="381" font-size="13" fill="#929CAF">25 samples / terminal host excluded / memory varies by session</text>
+</g></svg>

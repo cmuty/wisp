@@ -15,7 +15,7 @@ flowing gradients, and a little butterfly that follows the sound.
 [![License: MIT](https://img.shields.io/badge/license-MIT-dca2e6?style=flat-square)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join_the_community-76e8e5?style=flat-square)](https://discord.gg/wJaJHK2hFA)
 
-[Quick start](#quick-start) · [How it works](#how-it-works) · [Showcase](#showcase) · [Documentation](docs/README.md) · [Discord](https://discord.gg/wJaJHK2hFA)
+[Quick start](#quick-start) · [Showcase](#showcase) · [Memory footprint](#small-footprint) · [How it works](#how-it-works) · [Documentation](docs/README.md) · [Discord](https://discord.gg/wJaJHK2hFA)
 
 </div>
 
@@ -70,6 +70,18 @@ fonts and color support can change its appearance.
 - **Lyrics that keep time.** Follow the current line, seek without losing your place, and load a local `.lrc` when a service has no match.
 - **Made for dark terminals.** Five themes, a gradient W, restrained accents, and an animated butterfly you can disable in `/settings`. ASCII and reduced-motion modes are available.
 - **English and Russian.** Choose a language during setup or change it later with `/language`.
+
+## Small footprint
+
+<img src="docs/assets/memory.png" alt="Measured memory: wisp averaged 31.9 MiB, mpv averaged 49.2 MiB, and the combined working sets peaked at 81.6 MiB" width="100%">
+
+**Around 32 MiB for wisp itself** in an observed Windows x64 playback session.
+Over 31 seconds, the interface averaged **31.9 MiB**, the separate mpv audio
+process averaged **49.2 MiB**, and their combined working sets peaked at **81.6 MiB**.
+
+The figure visualizes recorded process counters. This is one observed session,
+not a fixed memory limit; terminal memory and temporary helpers outside the
+sampling window are excluded. [Method, raw data, and reproduction](docs/MEMORY.md).
 
 ## How it works
 
