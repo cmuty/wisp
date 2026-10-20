@@ -1,6 +1,6 @@
 ﻿[CmdletBinding()]
 param(
-    [string]$Version = '0.4.6',
+    [string]$Version = '0.4.7',
     [string]$BinaryName = 'wisp.exe',
     [string]$Go = 'go',
     [string]$MpvDirectory = '',
@@ -66,7 +66,10 @@ try {
         $installer = $installer.Replace("[string]`$ArchiveUrl = ''", "[string]`$ArchiveUrl = '$url'")
         $installer = $installer.Replace("[string]`$Sha256 = ''", "[string]`$Sha256 = '$hash'")
     }
-    [IO.File]::WriteAllText((Join-Path $dist 'install.ps1'),$installer,[Text.UTF8Encoding]::new($true))
+    # GitHub serves downloads as octet-stream; PowerShell 5.1 irm treats a BOM
+    # as literal characters. Keep the pipe-to-iex bootstrap ASCII and BOM-free.
+    if ($installer -match '[^\x00-\x7F]') { throw 'The pipe installer must contain ASCII text only.' }
+    [IO.File]::WriteAllText((Join-Path $dist 'install.ps1'),$installer,[Text.UTF8Encoding]::new($false))
     "$hash  $([IO.Path]::GetFileName($archive))" | Set-Content -LiteralPath (Join-Path $dist 'SHA256SUMS') -Encoding ascii
     [PSCustomObject]@{version=$Version;archive=[IO.Path]::GetFileName($archive);sha256=$hash;mpvIncluded=[bool]$MpvDirectory} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $dist 'release.json') -Encoding utf8
     Write-Host "Built $archive"

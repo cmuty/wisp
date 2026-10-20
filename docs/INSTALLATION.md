@@ -33,7 +33,7 @@ open may need to be reopened to see the new PATH.
 ## Manual and local archive installation
 
 Download the ZIP and `SHA256SUMS` from the [same release](https://github.com/cmuty/wisp/releases/latest).
-Compare `Get-FileHash .\wisp-0.4.6-windows-amd64.zip -Algorithm SHA256` with the
+Compare `Get-FileHash .\wisp-0.4.7-windows-amd64.zip -Algorithm SHA256` with the
 published value. Extract to a folder of your choice, then run:
 
 ```powershell
@@ -44,7 +44,7 @@ published value. Extract to a folder of your choice, then run:
 For a local source build, the source installer accepts:
 
 ```powershell
-.\scripts\install.ps1 -ArchivePath .\dist\wisp-0.4.6-windows-amd64.zip
+.\scripts\install.ps1 -ArchivePath .\dist\wisp-0.4.7-windows-amd64.zip
 ```
 
 Use `-WithoutMpv -WithoutExtractor` to skip helper setup if managing those tools
