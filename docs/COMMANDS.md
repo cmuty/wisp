@@ -16,6 +16,12 @@ midnight ambient
 
 The URL above illustrates the expected shape; replace it with a real playlist.
 
+To import a SoundCloud profile's public liked tracks directly into **Likes**, use
+`/import https://soundcloud.com/username/likes`. Existing likes are preserved and
+duplicates are skipped. Repeating the import adds newly discovered tracks; it does
+not remove local likes or modify the SoundCloud account. All pages must finish
+successfully before any tracks are saved.
+
 ## Navigation and playback
 
 | Key | Action |

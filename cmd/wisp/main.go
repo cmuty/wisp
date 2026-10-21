@@ -13,7 +13,7 @@ import (
 	"wisp/internal/terminal"
 )
 
-var version = "0.4.14-dev"
+var version = "0.4.15-dev"
 
 func main() {
 	if err := run(); err != nil {

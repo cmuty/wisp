@@ -22,6 +22,7 @@ import (
 
 type pulse time.Time
 type taskResult struct {
+	ImportLikes        bool
 	Previous           bool
 	ReplaceQueue       bool
 	NextQueue          []string
@@ -290,6 +291,25 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.message = fmt.Sprintf("Added %d tracks to your queue. /play to begin.", len(ids))
 			m.persist()
 		case "import":
+			if v.ImportLikes {
+				ids := m.State.Put(v.Tracks)
+				known := make(map[string]bool, len(m.State.Likes))
+				for _, id := range m.State.Likes {
+					known[id] = true
+				}
+				added := 0
+				for _, id := range ids {
+					if !known[id] {
+						m.State.Likes = append(m.State.Likes, id)
+						known[id] = true
+						added++
+					}
+				}
+				m.switchTab(2)
+				m.message = fmt.Sprintf(m.tr("Added %d tracks to Likes (%d already saved)."), added, len(ids)-added)
+				m.persist()
+				break
+			}
 			m.selectionPending = true
 			if m.tab == 0 {
 				m.libraryView = browserState{append([]string(nil), m.results...), m.title, m.message, m.warnings, m.index, m.offset, m.pageOffset}

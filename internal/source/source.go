@@ -309,6 +309,7 @@ func PlaylistURL(raw string) (string, string, error) {
 }
 
 type Import struct {
+	Likes  bool
 	Name   string
 	Tracks []library.Track
 	Notice string
@@ -320,6 +321,12 @@ func (c *Client) Import(ctx context.Context, raw string) (Import, error) {
 		return Import{}, err
 	}
 	result := Import{}
+	if src == "soundcloud" && IsSoundCloudLikes(raw) {
+		if !c.PublicWeb {
+			return result, errors.New("public SoundCloud likes require public sources mode")
+		}
+		return c.importPublicSCLikes(ctx, id)
+	}
 	if src == "spotify" && strings.HasPrefix(id, "track:") && (!c.PublicWeb || c.Credential(src) != "") {
 		var t spTrack
 		if err = c.get(ctx, c.SP+"/tracks/"+strings.TrimPrefix(id, "track:"), src, &t); err != nil {

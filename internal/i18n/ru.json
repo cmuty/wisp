@@ -1,4 +1,11 @@
 {
+  "SoundCloud likes pagination repeated; nothing imported": "SoundCloud повторил страницу лайков; импорт отменён",
+  "SoundCloud likes exceed 10,000 tracks; nothing imported": "В лайках SoundCloud более 10 000 треков; импорт отменён",
+  "unexpected SoundCloud likes pagination URL; nothing imported": "SoundCloud вернул неожиданную ссылку страницы лайков; импорт отменён",
+  "SoundCloud likes pagination limit reached; nothing imported": "Достигнут предел страниц лайков SoundCloud; импорт отменён",
+  "Added %d tracks to Likes (%d already saved).": "Добавлено в любимое: %d (уже сохранено: %d).",
+  "public SoundCloud likes require public sources mode": "Для импорта публичных лайков SoundCloud нужен режим публичных источников",
+  "SoundCloud profile is unavailable": "Профиль SoundCloud недоступен",
   "Library": "Медиатека",
   "Lib": "Музыка",
   "Playlists": "Плейлисты",

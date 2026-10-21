@@ -187,7 +187,7 @@ func (m *Model) dispatch(line string) tea.Cmd {
 			if custom != "" {
 				r.Name = library.Clean(custom)
 			}
-			return taskResult{Name: r.Name, Tracks: r.Tracks, Err: err, Notice: r.Notice}
+			return taskResult{Name: r.Name, Tracks: r.Tracks, Err: err, Notice: r.Notice, ImportLikes: r.Likes}
 		})
 	case "play":
 		if len(a) == 0 {
