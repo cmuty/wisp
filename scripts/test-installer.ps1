@@ -22,6 +22,10 @@ try {
     }
     $actual = & (Join-Path $destination 'bin/wisp.cmd') --version
     if ($actual -ne "wisp $Version") { throw "Installed version mismatch: $actual" }
+    $registration = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{9ACD2363-C14C-4D5B-A38A-9FA4D819E5CF}_is1'
+    if ($registration.DisplayName -ne 'wisp' -or $registration.DisplayVersion -ne $Version -or $registration.Publisher -ne 'cmuty') {
+        throw 'Installed Apps metadata does not match the WinGet manifest.'
+    }
     $release = Get-ChildItem (Join-Path $destination 'releases') -Directory | Select-Object -First 1
     foreach ($helper in @('mpv/mpv.exe','tools/yt-dlp.exe','tools/deno.exe')) {
         if (!(Test-Path -LiteralPath (Join-Path $release.FullName $helper))) { throw "Missing audio helper: $helper" }
