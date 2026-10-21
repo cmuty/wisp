@@ -1,6 +1,6 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
-    [string]$Version = '0.4.12',
+    [string]$Version = '0.4.13',
     [string]$BinaryName = 'wisp.exe',
     [string]$Go = 'go',
     [string]$MpvDirectory = '',

@@ -71,6 +71,56 @@ func TestFailedSelectionKeepsQueue(t *testing.T) {
 		t.Fatal("failed play overwrote queue")
 	}
 }
+
+func TestAutomaticPlaybackFollowsCurrentWithoutStealingBrowsing(t *testing.T) {
+	for _, browsing := range []bool{false, true} {
+		m := completionFixture(t)
+		m.results = m.State.Put([]library.Track{{ID: "a", Title: "First"}, {ID: "b", Title: "Second"}, {ID: "c", Title: "Third"}})
+		m.current = m.State.Tracks["a"]
+		if browsing {
+			m.move(2)
+		}
+		_, _ = m.Update(taskResult{Kind: "play", Track: m.State.Tracks["b"]})
+		want := 1
+		if browsing {
+			want = 2
+		}
+		if m.index != want || m.selectionPending != browsing {
+			t.Fatalf("browsing=%v: cursor=%d pending=%v", browsing, m.index, m.selectionPending)
+		}
+		body := ansi.Strip(strings.Join(m.body(FindTheme("mist"), 100, 20), "\n"))
+		if !strings.Contains(body, "▶   2") || strings.Contains(body, "▶   1") {
+			t.Fatal("current recording is not marked independently of cursor", body)
+		}
+		m.snapshot.Paused = true
+		body = ansi.Strip(strings.Join(m.body(FindTheme("mist"), 100, 20), "\n"))
+		if !strings.Contains(body, "Ⅱ   2") {
+			t.Fatal("paused recording is not marked", body)
+		}
+	}
+}
+
+func TestEnterPausesAfterQueueMovesOutsideVisibleResults(t *testing.T) {
+	m := playbackFixture(t)
+	cmd := m.playFromResults(0)
+	_, _ = m.Update(cmd())
+	m.State.Queue = []string{"b"}
+	cmd = m.playNext()
+	m.results = []string{"a"}
+	_, _ = m.Update(cmd())
+	_, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if cmd == nil || m.taskKind != "control" || m.current.ID != "b" {
+		t.Fatal("Enter restarted stale selection instead of pausing", m.taskKind, m.current.ID)
+	}
+	_, _ = m.Update(cmd())
+	m.move(1)
+	m.results = []string{"a", "b", "c"}
+	m.move(2)
+	_, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if cmd == nil || m.taskKind != "play" {
+		t.Fatal("deliberate selection no longer starts a recording")
+	}
+}
 func playbackFixture(t *testing.T) *Model {
 	t.Helper()
 	mpv := os.Getenv("WISP_TEST_MPV")
@@ -175,6 +225,18 @@ func TestRealSeekAndAutomaticQueue(t *testing.T) {
 	}
 	if m.current.ID != "b" || strings.Join(m.State.Queue, ",") != "c" {
 		t.Fatal("wrong next track", m.current.ID, m.State.Queue, m.message)
+	}
+	if m.index != 1 {
+		t.Fatal("cursor did not follow automatic queue transition", m.index)
+	}
+	_, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if cmd == nil || m.taskKind != "control" {
+		t.Fatal("Enter restarted original recording after EOF")
+	}
+	_, _ = m.Update(cmd())
+	wait(func() bool { return m.Engine.Snapshot().Paused })
+	if m.current.ID != "b" || strings.Join(m.State.Queue, ",") != "c" {
+		t.Fatal("pause changed current recording or queue")
 	}
 	saved, e := library.Load(m.Path)
 	if e != nil || strings.Join(saved.Queue, ",") != "c" {

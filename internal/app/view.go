@@ -300,6 +300,21 @@ func (m *Model) body(t Theme, width, height int) []string {
 				prefix = "› "
 				color = t.Accent
 			}
+			if track.ID == m.current.ID {
+				marker := "▶"
+				if m.snapshot.Paused {
+					marker = "Ⅱ"
+				}
+				if m.Plain {
+					marker = ">"
+					if m.snapshot.Paused {
+						marker = "="
+					}
+				}
+				prefix += marker + " "
+			} else {
+				prefix += "  "
+			}
 			label := track.Source
 			if track.Unavailable {
 				label += m.tr(" / unavailable")

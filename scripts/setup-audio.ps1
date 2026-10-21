@@ -40,8 +40,14 @@ try {
     }
     if (!$WithoutMpv -and !(Get-Command mpv -ErrorAction SilentlyContinue) -and !(Test-Path -LiteralPath (Join-Path $MpvDirectory 'mpv.exe')) -and !($env:WISP_MPV -and (Test-Path -LiteralPath $env:WISP_MPV))) {
         $mpvZip = Join-Path $scratch 'mpv.zip'
-        Get-CheckedFile 'https://github.com/mpv-player/mpv/releases/download/git-release/mpv-v0.41.0-dev-ge471496c5-39465194068-x86_64-w64-mingw32-full.zip' '9fc5bcabb671a8878ef32fc4b3c3736f11605e25ed367af49d35b2aa43a8133b' $mpvZip
+        Get-CheckedFile 'https://github.com/mpv-player/mpv/releases/download/v0.41.0/mpv-v0.41.0-x86_64-w64-mingw32.zip' 'a49811c0752c108b8260636f9c6f6fcb97406641c98b30f1e7b500dfb20177de' $mpvZip
         Expand-Archive -LiteralPath $mpvZip -DestinationPath $MpvDirectory -Force
+        # Official stable Windows packages wrap the binary distribution in one ZIP.
+        if (!(Test-Path -LiteralPath (Join-Path $MpvDirectory 'mpv.exe'))) {
+            $nested = @(Get-ChildItem -LiteralPath $MpvDirectory -File -Filter '*.zip')
+            if ($nested.Count -eq 1) { Expand-Archive -LiteralPath $nested[0].FullName -DestinationPath $MpvDirectory -Force }
+        }
+        if (!(Test-Path -LiteralPath (Join-Path $MpvDirectory 'mpv.exe'))) { throw 'mpv archive does not contain mpv.exe.' }
     }
     [PSCustomObject]@{ytDlp='2026.08.19';sha256=$ytHash;source='https://github.com/yt-dlp/yt-dlp/releases/tag/2026.08.19'} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ToolsDir 'manifest.json') -Encoding utf8
     Write-Host 'Audio tools are ready. No account token is needed for public sources.'

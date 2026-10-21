@@ -3,8 +3,8 @@ param(
     [string]$ArchiveUrl = '',
     [string]$Sha256 = '',
     [string]$ArchivePath = '',
-    [string]$MpvArchiveUrl = 'https://github.com/mpv-player/mpv/releases/download/git-release/mpv-v0.41.0-dev-ge471496c5-39465194068-x86_64-w64-mingw32-full.zip',
-    [string]$MpvSha256 = '9fc5bcabb671a8878ef32fc4b3c3736f11605e25ed367af49d35b2aa43a8133b',
+    [string]$MpvArchiveUrl = 'https://github.com/mpv-player/mpv/releases/download/v0.41.0/mpv-v0.41.0-x86_64-w64-mingw32.zip',
+    [string]$MpvSha256 = 'a49811c0752c108b8260636f9c6f6fcb97406641c98b30f1e7b500dfb20177de',
     [string]$MpvArchivePath = '',
     [string]$InstallDir = (Join-Path $env:LOCALAPPDATA 'Programs\wisp'),
     [switch]$NoPath,
@@ -53,6 +53,11 @@ try {
         if ($MpvSha256 -notmatch '^[a-fA-F0-9]{64}$' -or (Get-FileHash -LiteralPath $MpvArchivePath -Algorithm SHA256).Hash -ne $MpvSha256) { throw 'mpv checksum mismatch. Nothing was installed.' }
         $backend = Join-Path $unpacked 'mpv'
         Expand-Archive -LiteralPath $MpvArchivePath -DestinationPath $backend
+        # Official stable Windows packages wrap the binary distribution in one ZIP.
+        if (!(Test-Path -LiteralPath (Join-Path $backend 'mpv.exe'))) {
+            $nested = @(Get-ChildItem -LiteralPath $backend -File -Filter '*.zip')
+            if ($nested.Count -eq 1) { Expand-Archive -LiteralPath $nested[0].FullName -DestinationPath $backend -Force }
+        }
         if (!(Test-Path -LiteralPath (Join-Path $backend 'mpv.exe'))) { throw 'mpv archive does not contain mpv.exe.' }
     }
     $releaseDir = Join-Path $InstallDir ('releases\' + $actual.Substring(0,16))

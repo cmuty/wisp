@@ -22,6 +22,7 @@ var tabs = []string{"Library", "Playlists", "Likes", "Recent"}
 const settingsCount = 7
 
 func (m *Model) switchTab(n int) {
+	m.selectionPending = true
 	if m.tab == 0 {
 		m.libraryView = browserState{append([]string(nil), m.results...), m.title, m.message, m.warnings, m.index, m.offset, m.pageOffset}
 	}
@@ -87,7 +88,11 @@ func (m *Model) move(delta int) {
 		return
 	}
 	if m.itemCount() > 0 {
+		previous := m.index
 		m.index = max(0, min(m.itemCount()-1, m.index+delta))
+		if m.index != previous {
+			m.selectionPending = true
+		}
 	} else {
 		m.pageOffset = max(0, m.pageOffset+delta)
 	}
@@ -105,7 +110,7 @@ func (m *Model) activate() tea.Cmd {
 		return nil
 	}
 	id, _ := m.selectedID()
-	if m.current.ID != "" && (id == m.current.ID || id == "") && m.Engine.Ready() {
+	if m.current.ID != "" && (!m.selectionPending || id == m.current.ID || id == "") && m.Engine.Ready() {
 		return m.control("cycle", "pause")
 	}
 	if id != "" {

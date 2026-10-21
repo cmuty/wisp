@@ -378,6 +378,7 @@ func (m *Model) selectedID() (string, error) {
 	return m.results[m.index], nil
 }
 func (m *Model) show(title string, ids []string) {
+	m.selectionPending = true
 	m.title = title
 	m.results = append([]string{}, ids...)
 	m.index = 0

@@ -62,6 +62,7 @@ type Model struct {
 	oldTheme                     string
 	results                      []string
 	index, offset                int
+	selectionPending             bool
 	pageOffset                   int
 	title, message               string
 	saveError                    string
@@ -251,6 +252,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		switch v.Kind {
 		case "search":
+			m.selectionPending = true
 			m.tab = 0
 			m.playlistOpen = false
 			m.lyricsOpen = false
@@ -262,6 +264,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.message = searchNotice(len(v.Tracks), v.Report)
 			m.persist()
 		case "add":
+			m.selectionPending = true
 			m.tab = 0
 			m.playlistOpen = false
 			ids := m.State.Put(v.Tracks)
@@ -273,6 +276,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.message = fmt.Sprintf("Added %d tracks to your queue. /play to begin.", len(ids))
 			m.persist()
 		case "import":
+			m.selectionPending = true
 			if m.tab == 0 {
 				m.libraryView = browserState{append([]string(nil), m.results...), m.title, m.message, m.warnings, m.index, m.offset, m.pageOffset}
 			}
@@ -298,6 +302,8 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.message = fmt.Sprintf("Imported %d items. Enter plays the selected track; /open opens its source.", len(ids))
 			m.persist()
 		case "play":
+			selected, _ := m.selectedID()
+			follow := v.ReplaceQueue || !m.selectionPending || selected == m.current.ID || selected == v.Track.ID
 			if v.ReplaceQueue {
 				m.State.Queue = append([]string{}, v.NextQueue...)
 			}
@@ -309,6 +315,18 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.current = v.Track
 			m.lyricsTiming = 0
 			m.recordRecent(v.Track.ID)
+			if follow {
+				m.selectionPending = false
+				selected = v.Track.ID
+			}
+			if m.tab != 1 || m.playlistOpen {
+				for i, id := range m.results {
+					if id == selected {
+						m.index = i
+						break
+					}
+				}
+			}
 			m.message = ""
 			m.snapshot = m.Engine.Snapshot()
 			if m.lyricsOpen {
