@@ -5,6 +5,9 @@ param(
     [Parameter(Mandatory)][string]$LogPath
 )
 $ErrorActionPreference = 'Stop'
+# A caller using PowerShell 7 may pass its incompatible module directories to
+# Windows PowerShell. Use this child's inbox modules for checksum/ZIP cmdlets.
+$env:PSModulePath = Join-Path $PSHOME 'Modules'
 $recording = $false
 $result = 0
 try {
