@@ -1,5 +1,5 @@
 {
-  "version": "0.4.14",
+  "version": "0.4.15",
   "description": "A little room for sound. A terminal music player for Windows.",
   "homepage": "https://github.com/cmuty/wisp",
   "license": "MIT",
@@ -10,8 +10,8 @@
   ],
   "architecture": {
     "64bit": {
-      "url": "https://github.com/cmuty/wisp/releases/download/v0.4.14/wisp-0.4.14-windows-amd64.zip",
-      "hash": "26a9c280f62836c4a764ae3a09168ccc88a400f6d58ac253344a86917031d787"
+      "hash": "d23525609091e654d3ad6ac03a6beb8d82e7bcb788226d73ae9edc897124de45",
+      "url": "https://github.com/cmuty/wisp/releases/download/v0.4.15/wisp-0.4.15-windows-amd64.zip"
     }
   },
   "bin": "wisp.exe",
@@ -22,11 +22,11 @@
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/cmuty/wisp/releases/download/v$version/wisp-$version-windows-amd64.zip",
         "hash": {
-          "url": "https://github.com/cmuty/wisp/releases/download/v$version/SHA256SUMS",
-          "regex": "$sha256\\s+wisp-$version-windows-amd64\\.zip"
-        }
+          "regex": "$sha256\\s+wisp-$version-windows-amd64\\.zip",
+          "url": "https://github.com/cmuty/wisp/releases/download/v$version/SHA256SUMS"
+        },
+        "url": "https://github.com/cmuty/wisp/releases/download/v$version/wisp-$version-windows-amd64.zip"
       }
     }
   }
