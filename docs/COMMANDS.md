@@ -24,6 +24,8 @@ The URL above illustrates the expected shape; replace it with a real playlist.
 | Up/Down, wheel | Browse one item at a time |
 | Page Up / Page Down | Browse a page |
 | Enter | Play selected track; toggle pause if it is already current |
+| Space (empty input) / F4 | Pause or resume the current track, regardless of selection; F4 also works while typing |
+| Keyboard media keys | Play/Pause, Next, Previous, Stop; global on Windows while wisp is running |
 | Shift+Enter | Toggle selected track's like |
 | Left/Right | Seek back/forward 5 seconds |
 | Shift+Left/Right | Seek back/forward 1 second |
@@ -32,6 +34,13 @@ The URL above illustrates the expected shape; replace it with a real playlist.
 | F2 | Toggle lyrics |
 | Ctrl+P / Ctrl+N | Input history |
 | Esc | Hide hints or go back |
+
+Keyboard software can bind a physical key or macro to the standard Windows media
+actions. wisp handles these actions in the background, independently of the input
+field and selected row. Holding a media key sends one action per press. Previous
+uses this session's playback history and preserves forward queue order. While wisp
+is open, these four transport keys control wisp; volume keys keep their normal
+system behavior. Close wisp to release the media-key handler.
 
 Seek and volume shortcuts require an empty input, preserving normal text editing.
 Terminals differ in which modified keys they forward. Use `/like`, `/seek`,
@@ -55,6 +64,7 @@ open its tracks, then choose a track to play.
 | `/play [n]` | Play a numbered result or resume the queue |
 | `/pause` | Toggle pause |
 | `/next` | Next queued track |
+| `/prev` | Previous played track; keeps the current track next in the queue |
 | `/stop` | Stop playback |
 | `/seek +15` | Relative seek in seconds; a negative value seeks back |
 | `/volume 70` | Set volume between 0 and 100 |

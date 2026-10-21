@@ -15,12 +15,14 @@ import (
 	"wisp/internal/i18n"
 	"wisp/internal/library"
 	"wisp/internal/lyrics"
+	"wisp/internal/mediakeys"
 	"wisp/internal/player"
 	"wisp/internal/source"
 )
 
 type pulse time.Time
 type taskResult struct {
+	Previous           bool
 	ReplaceQueue       bool
 	NextQueue          []string
 	ID                 int
@@ -32,6 +34,8 @@ type taskResult struct {
 	Report             source.Result
 }
 type Model struct {
+	playHistory                  []string
+	mediaPending                 []mediakeys.Action
 	languageReturn               string
 	butterflyFrame               int
 	butterflyGeneration          uint64
@@ -139,6 +143,11 @@ func (m *Model) task(kind string, fn func(context.Context) taskResult) tea.Cmd {
 }
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch v := msg.(type) {
+	case MediaKeysUnavailable:
+		m.message = "Media keys unavailable. Another app may be using them; Space/F4 still pauses."
+		return m, nil
+	case mediakeys.Action:
+		return m, m.handleMediaKey(v)
 	case butterflyPulse:
 		if v.Generation != m.butterflyGeneration {
 			return m, nil
@@ -207,6 +216,11 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 				m.current = library.Track{}
 			}
+		}
+		if !m.busy && len(m.mediaPending) > 0 {
+			action := m.mediaPending[0]
+			m.mediaPending = m.mediaPending[1:]
+			return m, tea.Batch(tick(), m.handleMediaKey(action))
 		}
 		return m, tick()
 	case seekResult:
@@ -302,6 +316,16 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.message = fmt.Sprintf("Imported %d items. Enter plays the selected track; /open opens its source.", len(ids))
 			m.persist()
 		case "play":
+			if v.Previous {
+				if len(m.playHistory) > 0 {
+					m.playHistory = m.playHistory[:len(m.playHistory)-1]
+				}
+			} else if m.current.ID != "" && m.current.ID != v.Track.ID {
+				m.playHistory = append(m.playHistory, m.current.ID)
+				if len(m.playHistory) > 200 {
+					m.playHistory = m.playHistory[len(m.playHistory)-200:]
+				}
+			}
 			selected, _ := m.selectedID()
 			follow := v.ReplaceQueue || !m.selectionPending || selected == m.current.ID || selected == v.Track.ID
 			if v.ReplaceQueue {
@@ -501,6 +525,12 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		if m.stage == "ready" {
+			if key == "f4" || (v.Code == tea.KeySpace && v.Mod == 0 && m.input.Value() == "") {
+				if !m.busy && m.current.ID != "" && m.Engine.Ready() {
+					return m, m.control("cycle", "pause")
+				}
+				return m, nil
+			}
 			if key == "f5" && m.lyricsOpen && m.current.ID != "" {
 				return m, m.fetchLyrics()
 			}

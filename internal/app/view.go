@@ -162,7 +162,7 @@ func (m *Model) View() tea.View {
 	lines = append(lines, border.Render(vert)+" "+pad(bar, inner)+" "+border.Render(vert), progressSegment(t, bl, 0, 1, width, .5)+progressSegment(t, hor, 1, width-2, width, .5)+progressSegment(t, br, width-1, 1, width, .5), "")
 	lines = append(lines, completionRows...)
 	lines = append(lines, m.input.View())
-	hint := "Enter play/pause · ←→ seek · Tab tabs · F2 lyrics"
+	hint := "Enter play · Space/F4 pause · ←→ seek · Tab tabs · F2 lyrics"
 	if len(m.results) == 0 {
 		hint = "Search music   /import a link   /help"
 	}
@@ -301,15 +301,9 @@ func (m *Model) body(t Theme, width, height int) []string {
 				color = t.Accent
 			}
 			if track.ID == m.current.ID {
-				marker := "▶"
+				marker := ">"
 				if m.snapshot.Paused {
-					marker = "Ⅱ"
-				}
-				if m.Plain {
-					marker = ">"
-					if m.snapshot.Paused {
-						marker = "="
-					}
+					marker = "="
 				}
 				prefix += marker + " "
 			} else {

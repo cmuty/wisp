@@ -89,12 +89,12 @@ func TestAutomaticPlaybackFollowsCurrentWithoutStealingBrowsing(t *testing.T) {
 			t.Fatalf("browsing=%v: cursor=%d pending=%v", browsing, m.index, m.selectionPending)
 		}
 		body := ansi.Strip(strings.Join(m.body(FindTheme("mist"), 100, 20), "\n"))
-		if !strings.Contains(body, "▶   2") || strings.Contains(body, "▶   1") {
+		if !strings.Contains(body, ">   2") || strings.Contains(body, ">   1") {
 			t.Fatal("current recording is not marked independently of cursor", body)
 		}
 		m.snapshot.Paused = true
 		body = ansi.Strip(strings.Join(m.body(FindTheme("mist"), 100, 20), "\n"))
-		if !strings.Contains(body, "Ⅱ   2") {
+		if !strings.Contains(body, "=   2") {
 			t.Fatal("paused recording is not marked", body)
 		}
 	}
@@ -120,6 +120,30 @@ func TestEnterPausesAfterQueueMovesOutsideVisibleResults(t *testing.T) {
 	if cmd == nil || m.taskKind != "play" {
 		t.Fatal("deliberate selection no longer starts a recording")
 	}
+}
+
+func TestPauseShortcutsIgnoreSelectionAndPreserveInput(t *testing.T) {
+	m := playbackFixture(t)
+	_, _ = m.Update(m.playFromResults(0)())
+	m.move(2)
+	for _, key := range []tea.KeyPressMsg{{Code: tea.KeySpace, Text: " "}, {Code: tea.KeyF4}} {
+		_, cmd := m.Update(key)
+		if cmd == nil || m.taskKind != "control" || m.index != 2 || m.current.ID != "a" || m.input.Value() != "" {
+			t.Fatal("pause shortcut used selection", m.taskKind, m.index, m.current.ID)
+		}
+		_, _ = m.Update(cmd())
+	}
+	m.input.SetValue("my")
+	m.input.CursorEnd()
+	_, _ = m.Update(tea.KeyPressMsg{Code: tea.KeySpace, Text: " "})
+	if m.input.Value() != "my " || m.busy {
+		t.Fatal("space in search triggered pause", m.input.Value())
+	}
+	_, cmd := m.Update(tea.KeyPressMsg{Code: tea.KeyF4})
+	if cmd == nil || m.taskKind != "control" || m.input.Value() != "my " || m.index != 2 {
+		t.Fatal("F4 changed input or selected recording")
+	}
+	_, _ = m.Update(cmd())
 }
 func playbackFixture(t *testing.T) *Model {
 	t.Helper()

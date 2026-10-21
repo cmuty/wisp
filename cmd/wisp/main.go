@@ -8,11 +8,12 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"wisp/internal/app"
 	"wisp/internal/library"
+	"wisp/internal/mediakeys"
 	"wisp/internal/player"
 	"wisp/internal/terminal"
 )
 
-var version = "0.4.13-dev"
+var version = "0.4.14-dev"
 
 func main() {
 	if err := run(); err != nil {
@@ -47,6 +48,18 @@ func run() error {
 	}
 	restoreTitle := terminal.SetTitle("wisp")
 	defer restoreTitle()
-	_, err = tea.NewProgram(m).Run()
+	program := tea.NewProgram(m)
+	keys, keyErr := mediakeys.Start()
+	if keyErr == nil {
+		defer keys.Close()
+		go func() {
+			for action := range keys.Events {
+				program.Send(action)
+			}
+		}()
+	} else {
+		m.Update(app.MediaKeysUnavailable{Err: keyErr})
+	}
+	_, err = program.Run()
 	return err
 }

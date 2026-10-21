@@ -24,6 +24,8 @@ var help = []string{
 	"/language en|ru       Choose English or Russian",
 	"Tab / Shift+Tab: Library · Playlists · Likes · Recent",
 	"Enter: play / pause selected; Shift+Enter: like selected",
+	"Space (empty input) / F4: pause or resume current track",
+	"Media keys: play/pause, next, previous, stop (also in background)",
 	"Mouse wheel / up/down: browse; F2 or /lyrics: lyrics",
 	"Left/right: seek ±5s; Shift+left/right: ±1s (empty input)",
 	"Playing a result queues the tracks following it in the list.",
@@ -38,6 +40,7 @@ var help = []string{
 	"/connect [source]      Supply a token/key in a hidden input",
 	"/play [n]  /pause      Play result n or queue; toggle pause",
 	"/next  /stop           Next queued track; stop playback",
+	"/prev                 Previous played track",
 	"/seek +15  /volume 70  Seek in seconds; volume 0–100",
 	"+ / - volume ±5; Shift with + / - adjusts ±1 (empty input).",
 	"/queue [add n|remove n|clear]   Inspect or edit your queue",
@@ -213,6 +216,8 @@ func (m *Model) dispatch(line string) tea.Cmd {
 		})
 	case "next":
 		return m.playNext()
+	case "prev", "previous":
+		return m.playPrevious()
 	case "seek":
 		if len(a) != 1 {
 			return fail("Use /seek +15, /seek -10 or /seek 60 (seconds).")

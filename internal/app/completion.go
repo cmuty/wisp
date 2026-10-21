@@ -24,6 +24,7 @@ var commandHints = []commandHint{
 	{"/play", "/play [n]", "Play a result or your queue", "/play "},
 	{"/pause", "/pause", "Pause or resume playback", "/pause"},
 	{"/next", "/next", "Play the next queued track", "/next"},
+	{"/prev", "/prev", "Play the previous track", "/prev"},
 	{"/stop", "/stop", "Stop playback", "/stop"},
 	{"/seek", "/seek <seconds>", "Seek; +15 or -10 is relative", "/seek "},
 	{"/volume", "/volume <0-100>", "Set playback volume", "/volume "},
