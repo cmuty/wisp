@@ -26,12 +26,14 @@ custom bundled distribution with `-MpvDirectory`, preserve its notices and
 satisfy the corresponding source and redistribution obligations of that exact
 build. A project link alone does not replace those obligations.
 
-## Services and content
+## Installer toolchain
 
 The optional Windows EXE setup wizard is built with
 [Inno Setup](https://jrsoftware.org/isinfo.php). Its compiler is provisioned on
 the temporary build runner and is not included in the portable application ZIP.
 The installer engine is third-party software supplied by that toolchain.
+
+## Services and content
 
 SoundCloud, Spotify, and YouTube Music names identify their respective services.
 wisp is not affiliated with or endorsed by them. Public web integrations are

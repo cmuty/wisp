@@ -47,7 +47,7 @@ including how to inspect the script before running it.
 and open it. The wizard installs for your user account and includes an uninstaller.
 Internet access is required for audio-helper setup.
 
-**Scoop:** use this repository's bucket:
+**Scoop:** with Scoop and Git installed, use this repository's bucket:
 
 ```powershell
 scoop bucket add extras

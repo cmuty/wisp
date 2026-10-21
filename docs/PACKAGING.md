@@ -28,6 +28,9 @@ mixing managers can leave multiple launchers on PATH.
 
 ## Scoop
 
+Scoop and Git must be installed first. If Scoop is available but Git is missing,
+run `scoop install git` before adding buckets.
+
 ```powershell
 scoop bucket add extras
 scoop bucket add wisp https://github.com/cmuty/wisp
