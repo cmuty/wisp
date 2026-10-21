@@ -1,0 +1,33 @@
+{
+  "version": "0.4.12",
+  "description": "A little room for sound. A terminal music player for Windows.",
+  "homepage": "https://github.com/cmuty/wisp",
+  "license": "MIT",
+  "depends": [
+    "extras/mpv",
+    "main/yt-dlp",
+    "main/deno"
+  ],
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/cmuty/wisp/releases/download/v0.4.12/wisp-0.4.12-windows-amd64.zip",
+      "hash": "106c9c20034b2fd27712f2db8f61ba7e38e8054abe1ef93d52c319c82564e791"
+    }
+  },
+  "bin": "wisp.exe",
+  "notes": "Run wisp. Settings and collections are stored in %APPDATA%\\wisp, independently of Scoop.",
+  "checkver": {
+    "github": "https://github.com/cmuty/wisp"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/cmuty/wisp/releases/download/v$version/wisp-$version-windows-amd64.zip",
+        "hash": {
+          "url": "https://github.com/cmuty/wisp/releases/download/v$version/SHA256SUMS",
+          "regex": "$sha256\\s+wisp-$version-windows-amd64\\.zip"
+        }
+      }
+    }
+  }
+}
