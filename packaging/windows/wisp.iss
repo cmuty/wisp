@@ -53,7 +53,7 @@ Source: "{#PayloadDir}\install.ps1"; Flags: dontcopy
 Source: "provision.ps1"; Flags: dontcopy
 
 [Icons]
-Name: "{userprograms}\wisp"; Filename: "{app}\bin\wisp.cmd"; WorkingDir: "{userprofile}"
+Name: "{userprograms}\wisp"; Filename: "{app}\bin\wisp.cmd"; WorkingDir: "{%USERPROFILE}"
 
 [UninstallDelete]
 Type: files; Name: "{app}\bin\wisp.cmd"

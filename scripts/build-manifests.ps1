@@ -31,15 +31,15 @@ $scoop = [ordered]@{
 $winget = Join-Path $dist "winget/manifests/c/cmuty/wisp/$Version"
 New-Item -ItemType Directory -Path $winget -Force | Out-Null
 $versionManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.version.1.10.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.version.1.12.0.schema.json
 PackageIdentifier: cmuty.wisp
 PackageVersion: $Version
 DefaultLocale: en-US
 ManifestType: version
-ManifestVersion: 1.10.0
+ManifestVersion: 1.12.0
 "@
 $localeManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.defaultLocale.1.10.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 PackageIdentifier: cmuty.wisp
 PackageVersion: $Version
 PackageLocale: en-US
@@ -60,10 +60,10 @@ Tags:
 - tui
 ReleaseNotesUrl: https://github.com/$Repository/releases/tag/v$Version
 ManifestType: defaultLocale
-ManifestVersion: 1.10.0
+ManifestVersion: 1.12.0
 "@
 $installerManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.installer.1.10.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 PackageIdentifier: cmuty.wisp
 PackageVersion: $Version
 InstallerType: inno
@@ -83,7 +83,7 @@ Installers:
   InstallerSha256: $exeHash
   ProductCode: '{9ACD2363-C14C-4D5B-A38A-9FA4D819E5CF}_is1'
 ManifestType: installer
-ManifestVersion: 1.10.0
+ManifestVersion: 1.12.0
 "@
 foreach ($entry in @(@('cmuty.wisp.yaml',$versionManifest),@('cmuty.wisp.locale.en-US.yaml',$localeManifest),@('cmuty.wisp.installer.yaml',$installerManifest))) {
     [IO.File]::WriteAllText((Join-Path $winget $entry[0]),($entry[1]+"`n"),[Text.UTF8Encoding]::new($false))
