@@ -52,9 +52,9 @@ scoop bucket add wisp https://github.com/cmuty/wisp
 scoop install wisp/wisp
 ```
 
-**WinGet:** манифесты `cmuty.wisp` приложены к релизу. Установка по имени из
-общего каталога станет доступна после отправки и одобрения пакета.
-Статус и подробности — в [руководстве](docs/PACKAGING.md).
+**WinGet:** [заявка №457542](https://github.com/microsoft/winget-pkgs/pull/457542)
+для `cmuty.wisp` отправлена. Установка по имени из общего каталога станет доступна
+после одобрения и индексации пакета. Статус — в [руководстве](docs/PACKAGING.md).
 
 ## Showcase
 

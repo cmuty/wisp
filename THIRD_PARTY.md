@@ -28,6 +28,11 @@ build. A project link alone does not replace those obligations.
 
 ## Services and content
 
+The optional Windows EXE setup wizard is built with
+[Inno Setup](https://jrsoftware.org/isinfo.php). Its compiler is provisioned on
+the temporary build runner and is not included in the portable application ZIP.
+The installer engine is third-party software supplied by that toolchain.
+
 SoundCloud, Spotify, and YouTube Music names identify their respective services.
 wisp is not affiliated with or endorsed by them. Public web integrations are
 unofficial. LRCLIB provides online lyrics lookup; local LRC files are also supported.

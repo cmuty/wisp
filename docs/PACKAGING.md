@@ -2,7 +2,8 @@
 
 ## EXE setup
 
-Download `wisp-0.4.12-setup-x64.exe` from [Releases](https://github.com/cmuty/wisp/releases/latest).
+Download [wisp-setup-x64.exe](https://github.com/cmuty/wisp/releases/latest/download/wisp-setup-x64.exe).
+Releases also include a versioned filename for immutable package-manager URLs.
 The English/Russian Inno Setup wizard installs per user into
 `%LOCALAPPDATA%\Programs\wisp`, registers user PATH, adds a Start menu shortcut,
 and registers an uninstaller in Windows Installed Apps. No elevation is needed.
@@ -49,7 +50,9 @@ Package identifier: **`cmuty.wisp`**. Release assets include
 the immutable release EXE and its SHA-256. The manifest declares a per-user Inno
 installer, silent modes, the `wisp` command, and the stable uninstall product code.
 
-**Catalog status: prepared; not yet approved in microsoft/winget-pkgs.**
+**Catalog status: [submitted as PR #457542](https://github.com/microsoft/winget-pkgs/pull/457542);
+not yet approved or indexed.** Microsoft has requested the maintainer's CLA
+confirmation in [this bot comment](https://github.com/microsoft/winget-pkgs/pull/457542#issuecomment-6304761872).
 An artifact in this repository does not make the package searchable through
 the community catalog. After a submission is accepted and indexed, the command
 will be:

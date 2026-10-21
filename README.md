@@ -55,9 +55,9 @@ scoop bucket add wisp https://github.com/cmuty/wisp
 scoop install wisp/wisp
 ```
 
-**WinGet:** manifests for `cmuty.wisp` are included in each release. Availability
-in the community catalog depends on submission and approval; see the
-[package-manager guide](docs/PACKAGING.md) for current status.
+**WinGet:** [submission #457542](https://github.com/microsoft/winget-pkgs/pull/457542)
+for `cmuty.wisp` is open. The package becomes searchable after community-catalog
+approval and indexing; see the [package-manager guide](docs/PACKAGING.md) for status.
 
 ## Showcase
 
