@@ -5,11 +5,15 @@ if (!$env:RUNNER_TEMP) { throw 'Run the Scoop smoke test on an isolated GitHub r
 $root = Split-Path -Parent $PSScriptRoot
 $env:SCOOP = Join-Path $env:RUNNER_TEMP 'wisp-scoop-smoke'
 $checkout = Join-Path $env:SCOOP 'apps/scoop/current'
-git clone --depth 1 https://github.com/ScoopInstaller/Scoop.git $checkout
-if ($LASTEXITCODE -ne 0) { throw 'Could not obtain Scoop.' }
+$bootstrap = Join-Path $env:RUNNER_TEMP 'install-scoop.ps1'
+Invoke-WebRequest https://raw.githubusercontent.com/ScoopInstaller/Install/1e2f334083d609986d8c8bc9e31ae8e87c39fab4/install.ps1 -OutFile $bootstrap
+& $bootstrap -RunAsAdmin -ScoopDir $env:SCOOP -ScoopGlobalDir (Join-Path $env:RUNNER_TEMP 'wisp-scoop-global') -ScoopCacheDir (Join-Path $env:SCOOP 'cache')
 $scoop = Join-Path $checkout 'bin/scoop.ps1'
-& $scoop bucket add main https://github.com/ScoopInstaller/Main
-if ($LASTEXITCODE -ne 0) { throw 'Could not add the main bucket.' }
+if (!(Test-Path -LiteralPath $scoop)) { throw 'Scoop bootstrap did not create the command.' }
+if (!(Test-Path -LiteralPath (Join-Path $env:SCOOP 'buckets/main'))) {
+    & $scoop bucket add main https://github.com/ScoopInstaller/Main
+    if ($LASTEXITCODE -ne 0) { throw 'Could not add the main bucket.' }
+}
 & $scoop bucket add extras https://github.com/ScoopInstaller/Extras
 if ($LASTEXITCODE -ne 0) { throw 'Could not add the extras bucket.' }
 $listener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,0)
